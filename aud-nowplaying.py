@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os, subprocess, ConfigParser, sys
+import os, subprocess, ConfigParser, sys, codecs
 from requests_oauthlib import OAuth1Session
 
 config = ConfigParser.ConfigParser()
@@ -21,8 +21,10 @@ url = "https://api.twitter.com/1.1/statuses/update.json"
 
 # Audaciousからいま再生している楽曲データを取得
 curr_song = subprocess.Popen(['audtool', 'current-song'], stdout=subprocess.PIPE)
+
 print "コメントを入力"
 comment = raw_input('>>>  ')
+
 status = "#nowplaying" + ' ' + curr_song.stdout.read().rstrip() + ' ' + comment
 params = {"status": status}
 
