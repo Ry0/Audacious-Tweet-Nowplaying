@@ -47,3 +47,5 @@ Audaciousで音楽再生中に実行する
 ```bash
 python aud-nowplaying.py
 ```
+
+![img](screenshot.png)
