@@ -24,12 +24,17 @@ curr_song = subprocess.Popen(['audtool', 'current-song'], stdout=subprocess.PIPE
 curr_song = curr_song.stdout.read().rstrip()
 print curr_song
 
+# ハイフンで区切られているデータをばらばらに
 strip_song = curr_song.split(" - ")
+
+artist_name = strip_song[0] #アーティスト名
+song_title = strip_song[1] # 楽曲名
+album_title = strip_song[2] # アルバムタイトル
 
 print "コメントを入力"
 comment = raw_input('>>>  ')
 
-status = "#nowplaying" + ' ' + strip_song[1] + ' - ' + strip_song[0] + '\n' + comment
+status = "#nowplaying" + ' ' + song_title + ' - ' + artist_name + '\n' + comment
 # print status
 params = {"status": status}
 
