@@ -4,7 +4,7 @@ import os, subprocess, ConfigParser, sys, codecs
 from requests_oauthlib import OAuth1Session
 
 config = ConfigParser.ConfigParser()
-config.read(['./aud-nowplaying.conf'])
+config.read(['/home/ry0/Workspace/Python/Audacious-Tweet-Nowplaying/aud-nowplaying.conf'])
 
 # 自分で取得したTwitterの各種トークン
 CONSUMER_KEY = config.get('connect_params', 'CONSUMER_KEY', 1)               # Consumer Key
@@ -21,11 +21,16 @@ url = "https://api.twitter.com/1.1/statuses/update.json"
 
 # Audaciousからいま再生している楽曲データを取得
 curr_song = subprocess.Popen(['audtool', 'current-song'], stdout=subprocess.PIPE)
+curr_song = curr_song.stdout.read().rstrip()
+print curr_song
+
+strip_song = curr_song.split(" - ")
 
 print "コメントを入力"
 comment = raw_input('>>>  ')
 
-status = "#nowplaying" + ' ' + curr_song.stdout.read().rstrip() + ' ' + comment
+status = "#nowplaying" + ' ' + strip_song[1] + ' - ' + strip_song[0] + '\n' + comment
+# print status
 params = {"status": status}
 
 # OAuth認証で POST method で投稿
