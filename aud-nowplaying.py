@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os, subprocess, ConfigParser, sys, codecs
+import subprocess
+import ConfigParser
+import sys
+import os
+import codecs
 from requests_oauthlib import OAuth1Session
 
 config = ConfigParser.ConfigParser()

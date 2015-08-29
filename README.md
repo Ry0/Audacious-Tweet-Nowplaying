@@ -11,6 +11,12 @@ sudo apt-get install audacious
 git clone https://github.com/Ry0/Audacious-Tweet-Nowplaying.git
 ```
 
+##必要なPythonライブラリをインストール
+
+```bash
+sudo pip install requests requests_oauthlib
+```
+
 ##TwitterAPIの取得
 TwitterからAPIを取得してください
 
