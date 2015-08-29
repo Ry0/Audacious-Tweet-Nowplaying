@@ -27,14 +27,21 @@ print curr_song
 # ハイフンで区切られているデータをばらばらに
 strip_song = curr_song.split(" - ")
 
+# アルバム名にハイフンが入っているときがあるので対策
+list_size = len(strip_song)
+
 artist_name = strip_song[0] #アーティスト名
-song_title = strip_song[1] # 楽曲名
-album_title = strip_song[2] # アルバムタイトル
+album_title = strip_song[1] # アルバムタイトル
+song_title = strip_song[list_size-1] # 楽曲名
 
 print "コメントを入力"
 comment = raw_input('>>>  ')
 
-status = "#nowplaying" + ' ' + song_title + ' - ' + artist_name + '\n' + comment
+status = "#nowplaying" + ' ' + song_title + ' - ' + artist_name
+
+if len(comment) != 0:
+  status = status + '\n' + comment
+
 # print status
 params = {"status": status}
 
