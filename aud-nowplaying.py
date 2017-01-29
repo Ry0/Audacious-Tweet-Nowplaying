@@ -2,33 +2,30 @@
 # -*- coding: utf-8 -*-
 import subprocess
 import ConfigParser
-import sys
 import os
-import codecs
 from requests_oauthlib import OAuth1Session
+import lastfm
 
 config = ConfigParser.ConfigParser()
-config.read(['/home/ry0/Workspace/Python/Audacious-Tweet-Nowplaying/aud-nowplaying.conf'])
+python_script_path = os.path.abspath(os.path.dirname(__file__))
+config.read([python_script_path + '/aud-nowplaying.conf'])
 
 # 自分で取得したTwitterの各種トークン
 # Consumer Key
-CONSUMER_KEY = config.get('connect_params', 'CONSUMER_KEY', 1)
-# print CONSUMER_KEY
-
+TW_CK = config.get('twitter_params', 'consumer_key', 1)
 # Consumer Secret
-CONSUMER_SECRET = config.get('connect_params', 'CONSUMER_SECRET', 1)
-# print CONSUMER_SECRET
-
+TW_CS = config.get('twitter_params', 'consumer_secret', 1)
 # Access Token
-ACCESS_TOKEN_KEY = config.get('connect_params', 'ACCESS_TOKEN_KEY', 1)
-# print ACCESS_TOKEN_KEY
-
+TW_AT = config.get('twitter_params', 'access_token_key', 1)
 # Accesss Token Secert
-ACCESS_TOKEN_SECRET = config.get('connect_params', 'ACCESS_TOKEN_SECRET', 1)
-# print ACCESS_TOKEN_SECRET
+TW_AS = config.get('twitter_params', 'access_token_secret', 1)
+# 自分で取得したLast.fmのAPI
+# API Key
+LF_AK = config.get('lastfm_params', 'api_key', 1)
 
 # ツイート投稿用のURL
-url = "https://api.twitter.com/1.1/statuses/update.json"
+text_url = "https://api.twitter.com/1.1/statuses/update.json"
+with_media_url = "https://api.twitter.com/1.1/statuses/update_with_media.json"
 
 # Audaciousからいま再生している楽曲データを取得
 curr_song = subprocess.Popen(['audtool', 'current-song'], stdout=subprocess.PIPE)
@@ -62,15 +59,30 @@ status = "#nowplaying" + ' ' + song_title + ' - ' + artist_name
 if len(comment) != 0:
   status = status + '\n' + comment
 
-print status
-params = {"status": status}
-
 # OAuth認証で POST method で投稿
-twitter = OAuth1Session(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN_KEY, ACCESS_TOKEN_SECRET)
-req = twitter.post(url, params = params)
+twitter = OAuth1Session(TW_CK, TW_CS, TW_AT, TW_AS)
 
-# レスポンスを確認
-if req.status_code == 200:
-  print ("OK")
+# Last.fmでAlbumアート取得
+cover = lastfm.AlbumArt(artist_name, album_title, LF_AK)
+xml = cover.openUrl()
+if xml:
+  url = cover.getImageUrl(xml)
+  if url:
+    cover.saveImage(url)
+    files = {"status":status, "media[]":open(python_script_path + "/.img/tmp.jpg", "rb")}
+    print "[画像付き] " + status
+    # req = twitter.post(with_media_url, files = files)
+  else:
+    params = {"status": status}
+    print status
+    # req = twitter.post(text_url, params = params)
 else:
-  print ("Error: %d" % req.status_code)
+  params = {"status": status}
+  print status
+#   req = twitter.post(text_url, params = params)
+
+# # レスポンスを確認
+# if req.status_code == 200:
+#   print ("OK")
+# else:
+#   print ("Error: %d" % req.status_code)
