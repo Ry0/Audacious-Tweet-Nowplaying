@@ -14,14 +14,19 @@ git clone https://github.com/Ry0/Audacious-Tweet-Nowplaying.git
 ##必要なPythonライブラリをインストール
 
 ```bash
-sudo pip install requests requests_oauthlib
+cd Audacious-Tweet-Nowplaying
+sudo pip install -r requirements.txt
 ```
 
-##TwitterAPIの取得
+##TwitterAPIとLast.fm APIの取得
 TwitterからAPIを取得してください
 
 >TwitterDevelopers  
 >[https://dev.twitter.com/apps](https://dev.twitter.com/apps)
+
+
+>Create API account   
+>[http://www.last.fm/api/account/create](http://www.last.fm/api/account/create)
 
 そしてこのレポジトリに`aud-nowplaying.conf`というファイル名で認証情報を作成
 
@@ -31,21 +36,17 @@ gedit aud-nowplaying.conf
 ```
 
 ```html
-[connect_params]
+[twitter_params]
 consumer_key = abcdefghijklmnopqrstuvwxy
 consumer_secret = ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwx
 access_token_key = 123456789-ABCDEFGHIJKLMNOPQRSTUVWXYABCDEFGHIJKLMNO
 access_token_secret = abcdefghijklmnopqrstuvwxyabcdefghijklmnopqrst
+
+[lastfm_params]
+api_key = abcdefghijklmnopqrstuvwxyzABCDEF
 ```
 
-こんな感じで作成
-
-##aud-nowplaying.pyの修正
-`aud-nowplaying.conf`の場所を`aud-nowplaying.py`に記述してあるのでパスを自分の環境に修正
-
-```python
-config.read(['aud-nowplaying.conf'])
-```
+こんな感じで作成．
 
 ##ツイートしてみる
 Audaciousで音楽再生中に実行する
@@ -54,4 +55,6 @@ Audaciousで音楽再生中に実行する
 python aud-nowplaying.py
 ```
 
-![img](screenshot.png)
+![img](.img/screenshot_1.png)
+
+![img](.img/screenshot_2.png)
