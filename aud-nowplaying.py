@@ -71,18 +71,18 @@ if xml:
     cover.saveImage(url)
     files = {"status":status, "media[]":open(python_script_path + "/.img/tmp.jpg", "rb")}
     print "[画像付き] " + status
-    # req = twitter.post(with_media_url, files = files)
+    req = twitter.post(with_media_url, files = files)
   else:
     params = {"status": status}
     print status
-    # req = twitter.post(text_url, params = params)
+    req = twitter.post(text_url, params = params)
 else:
   params = {"status": status}
   print status
-#   req = twitter.post(text_url, params = params)
+  req = twitter.post(text_url, params = params)
 
 # # レスポンスを確認
-# if req.status_code == 200:
-#   print ("OK")
-# else:
-#   print ("Error: %d" % req.status_code)
+if req.status_code == 200:
+  print ("OK")
+else:
+  print ("Error: %d" % req.status_code)
