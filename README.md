@@ -1,24 +1,24 @@
-#Ubuntuの音楽プレイヤーAudaciousでTwitterに#nowplayingをツイートするためのPythonスクリプト
-##Audaciousのインストール
+# Ubuntuの音楽プレイヤーAudaciousでTwitterに#nowplayingをツイートするためのPythonスクリプト
+## Audaciousのインストール
 ```bash
 sudo add-apt-repository ppa:nilarimogard/webupd8
 sudo apt-get install audacious
 ```
 
-##このレポジトリをクローン
+## このレポジトリをクローン
 
 ```bash
 git clone https://github.com/Ry0/Audacious-Tweet-Nowplaying.git
 ```
 
-##必要なPythonライブラリをインストール
+## 必要なPythonライブラリをインストール
 
 ```bash
 cd Audacious-Tweet-Nowplaying
 sudo pip install -r requirements.txt
 ```
 
-##TwitterAPIとLast.fm APIの取得
+## TwitterAPIとLast.fm APIの取得
 TwitterからAPIを取得してください
 
 >TwitterDevelopers  
@@ -48,7 +48,7 @@ api_key = abcdefghijklmnopqrstuvwxyzABCDEF
 
 こんな感じで作成．
 
-##ツイートしてみる
+## ツイートしてみる
 Audaciousで音楽再生中に実行する
 
 ```bash
