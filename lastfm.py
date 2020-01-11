@@ -3,9 +3,9 @@
 import urllib2
 import re
 import os
+import io
 from BeautifulSoup import BeautifulStoneSoup
-import Image
-import ImageFileIO
+from PIL import Image
 
 class AlbumArt:
     def __init__(self, artist, album, api_key):
@@ -49,7 +49,7 @@ class AlbumArt:
         if stream.info().gettype()[:5] == "image":
             python_script_path = os.path.abspath(os.path.dirname(__file__))
             file_name = python_script_path + "/.img/tmp.jpg"
-            image = Image.open(ImageFileIO.ImageFileIO(stream))
+            image = Image.open(io.BytesIO(stream.read())).convert('RGB')
             image.save(file_name, quality = 100)
             pass
         else:

@@ -46,6 +46,18 @@ for i in range(list_size-3):
 # 楽曲名
 song_title = strip_song[list_size-1]
 
+# Last.fmでAlbumアート取得
+cover = lastfm.AlbumArt(artist_name, album_title, LF_AK)
+xml = cover.openUrl()
+if xml:
+  url = cover.getImageUrl(xml)
+  if url:
+    print "画像あり"
+  else:
+    print "画像なし"
+else:
+  print "画像なし"
+
 print "コメントを入力"
 comment = raw_input('>>>  ')
 
@@ -62,9 +74,6 @@ if len(comment) != 0:
 # OAuth認証で POST method で投稿
 twitter = OAuth1Session(TW_CK, TW_CS, TW_AT, TW_AS)
 
-# Last.fmでAlbumアート取得
-cover = lastfm.AlbumArt(artist_name, album_title, LF_AK)
-xml = cover.openUrl()
 if xml:
   url = cover.getImageUrl(xml)
   if url:
@@ -81,7 +90,7 @@ else:
   print status
   req = twitter.post(text_url, params = params)
 
-# # レスポンスを確認
+# レスポンスを確認
 if req.status_code == 200:
   print ("OK")
 else:
